@@ -1,9 +1,17 @@
 
+import { db } from '../db';
+import { agenciesTable } from '../db/schema';
 import { type Agency } from '../schema';
 
 export const getAgencies = async (): Promise<Agency[]> => {
-  // This is a placeholder declaration! Real code should be implemented here.
-  // The goal of this handler is fetching all agencies from the database
-  // for super-admin dashboard with pagination support.
-  return [];
+  try {
+    const results = await db.select()
+      .from(agenciesTable)
+      .execute();
+
+    return results;
+  } catch (error) {
+    console.error('Failed to fetch agencies:', error);
+    throw error;
+  }
 };

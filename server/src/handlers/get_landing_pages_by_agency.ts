@@ -1,9 +1,19 @@
 
+import { db } from '../db';
+import { landingPagesTable } from '../db/schema';
 import { type LandingPage } from '../schema';
+import { eq } from 'drizzle-orm';
 
 export const getLandingPagesByAgency = async (agencyId: number): Promise<LandingPage[]> => {
-  // This is a placeholder declaration! Real code should be implemented here.
-  // The goal of this handler is fetching all landing pages for an agency
-  // with status filtering and search capabilities.
-  return [];
+  try {
+    const results = await db.select()
+      .from(landingPagesTable)
+      .where(eq(landingPagesTable.agency_id, agencyId))
+      .execute();
+
+    return results;
+  } catch (error) {
+    console.error('Failed to get landing pages by agency:', error);
+    throw error;
+  }
 };
